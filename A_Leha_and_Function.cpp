@@ -11,42 +11,42 @@ This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+       int n;cin>>n;
+       vector<pair<int,int>>a(n);
 
-  vector<ll>a(n);
+     vector<int>b(n);
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+     for(int i=0;i<n;i++)cin>>b[i];
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
+      for(int i=0;i<n;i++)
+      {
+         cin>>a[i].first;
+         a[i].second=i;
+      }
+      sort(b.begin(),b.end(),greater<int>());
+      sort(a.begin(),a.end());
+         vector<int>ans(n);
+      for(int i=0;i<n;i++)
+      {
+           ans[a[i].second]=b[i];
+      }
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
+      for(auto &x:ans)cout<<x<<" ";cout<<endl;
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
+      
 
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
 
+
+
+
+
+return;
 }
 int main()
 {
 std::ios::sync_with_stdio(false);std::cin.tie(nullptr);std::cout.tie(nullptr);
-int t;
-cin>>t;
-// t=1;
-while(t--)
+
 solve();
 return 0;
 }

@@ -1,0 +1,1 @@
+{"name":"Local: ans","url":"/home/slumio/automatic-memory/ans.cpp","tests":[{"id":1724268995734,"input":"1\n15 13\n45 37 -9 -57 -8 27 -31 4 -79 -25 -90 -26 33 -35 50 ","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/slumio/automatic-memory/ans.cpp","group":"local","local":true}

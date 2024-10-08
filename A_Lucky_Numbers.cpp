@@ -11,34 +11,36 @@ This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+       
+       int l,r;
+       cin>>l>>r;
+ int ans=0;
+    int sp=l;
+    for(int i=l;i<=r;i++)
+    {
 
-  vector<ll>a(n);
+        int maxp=0;
+        int minp=9;
+        int m=i;
+        
+        while(m>0)
+        {
+            maxp=max(maxp,m%10);
+            minp=min(minp,m%10);
+            m/=10;
+        }
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+        //cout<<maxp<<" "<<minp<<endl;
+        if(ans<maxp-minp){ans=maxp-minp;sp=i;}
+        if(ans==9)break;
+    }
+
+    cout<<sp<<endl;
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
-
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
-
+return;
 }
 int main()
 {

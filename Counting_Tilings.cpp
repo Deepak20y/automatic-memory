@@ -9,36 +9,24 @@ Oh wakin' senses that were lost in time
 (Make amends)
 This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
-
+ 
+ const int mod=1e9+7;
+ ll dp[13];
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+       int n,m;cin>>n>>m;
+       dp[1]=1;
+       dp[2]=2;
 
-  vector<ll>a(n);
-
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+       for(int i=3;i<=n;i++)dp[i]=dp[i-1]+dp[i-2];
+            
+     for(int i=)
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
 
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
 
+return;
 }
 int main()
 {

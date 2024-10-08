@@ -11,34 +11,29 @@ This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+        ll n,s,m;
+        cin>>n>>s>>m;
 
-  vector<ll>a(n);
+  ll maxp=0LL;
+  vector<pair<ll,ll>>a(n);
+   for(int i=0;i<n;i++)cin>>a[i].first>>a[i].second;
+    
+    
+     maxp=max(a[0].first,maxp);
+     maxp=max(m-a[n-1].second,maxp);
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+     for(int i=1;i<n;i++)
+     {
+        maxp=max(a[i].first-a[i-1].second,maxp);
 
-
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
-
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
-
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
-
-          if(up==a.end());
      }
-  }
-     
-    return;
-           
 
+     if(maxp>=s)cout<<"YES"<<endl;
+     else cout<<"NO"<<endl;
+
+
+
+return;
 }
 int main()
 {

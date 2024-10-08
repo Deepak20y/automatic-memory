@@ -1,0 +1,1 @@
+{"name":"Local: e","url":"/home/slumio/automatic-memory/codeforces/Codeforces Round 964 (Div. 4)/e.cpp","tests":[{"id":1722957624166,"input":"4\n1 3\n2 4\n199999 200000\n19 84\n","output":"5\n6\n36\n263\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/slumio/automatic-memory/codeforces/Codeforces Round 964 (Div. 4)/e.cpp","group":"local","local":true}

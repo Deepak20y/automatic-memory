@@ -9,44 +9,35 @@ Oh wakin' senses that were lost in time
 (Make amends)
 This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
+ ll dp[3003][3003];
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+       
 
-  vector<ll>a(n);
+ int n;cin>>n;
+ vector<int>a(n);
+ for(int i=0;i<n;i++)cin>>a[i];
+ 
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+ for(int i=n-1;i>=0;i--)
+ for(int j=i;j<n;j++)
+ {
+    if(i==j)dp[i][j]=a[i];
+    else dp[i][j]=max(a[i]-dp[i+1][j],a[j]-dp[i][j-1]);
+
+ }
+
+ cout<<dp[0][n-1]<<endl;
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
-
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
-
+return;
 }
 int main()
 {
 std::ios::sync_with_stdio(false);std::cin.tie(nullptr);std::cout.tie(nullptr);
-int t;
-cin>>t;
-// t=1;
-while(t--)
+
 solve();
 return 0;
 }

@@ -10,35 +10,26 @@ Oh wakin' senses that were lost in time
 This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
+void recursion(int i,vector<ll>&)
  void solve(){
-       ll n,k;
-       cin>>n>>k;
-
-  vector<ll>a(n);
-
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+       int n;cin>>n;
+       int m;cin>>m;
+  
+  vector<int>a(n);
+  for(int i=0;i<n;i++){cin>>a[i];a[i]%=m;}
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
+  sort(a.begin(),a.end());
+  if(a[0]>0)cout<<"YES"<<endl;
+  else{
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
-
-          if(up==a.end());
-     }
   }
-     
-    return;
-           
 
+
+
+
+return;
 }
 int main()
 {

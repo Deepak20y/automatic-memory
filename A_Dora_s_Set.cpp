@@ -11,34 +11,33 @@ This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+       int l,r;
+       cin>>l>>r;
+       
+       int odd=0;
+       int even=0;
+       for(int i=l;i<=r;i++)
+       {
+          if(i%2==0)even++;
+          else odd++;
+       }
 
-  vector<ll>a(n);
+      int ans=0;
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+    while(odd>=2&&even>=1)
+    {
+         odd-=2;
+         even--;
+         ans++;
+    }
+
+  while(odd>=3){ans++;odd-=3;}
+ 
+ cout<<ans<<endl;
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
-
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
-
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
-
+return;
 }
 int main()
 {

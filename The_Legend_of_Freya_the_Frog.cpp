@@ -11,34 +11,24 @@ This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+       
+       ll x,y;cin>>x>>y;
 
-  vector<ll>a(n);
+       ll d;cin>>d;
+     if(x%d==0)x/=d;
+     else x=x/d+1;
+       if(y%d==0)y/=d;
+     else y=y/d+1;
+ 
+   if(x==0&&y==0){cout<<0<<endl;return;}
+  //cout<<x<<" "<<y<<endl;
+  if(x==y)cout<<2*max(x,y)<<endl;
+  else if(x>y)cout<<2*max(x,y)-1<<endl;
+  else cout<<2*max(x,y)<<endl;
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
-
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
-
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
-
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
-
+return;
 }
 int main()
 {

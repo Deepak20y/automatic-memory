@@ -11,34 +11,39 @@ This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
-
-  vector<ll>a(n);
-
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+     int n;cin>>n;
+       string s;
+       cin>>s;
+       string t;cin>>t;
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
+       map<char,int>a;
+       for(int i=0;i<n;i++)
+       {
+            a[s[i]]++;
+            a[t[i]]--;
+       }
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
+       if(a['W']!=0||a['B']!=0)cout<<-1<<endl;
+       else{
+          
+          if(s.size()<=3&&s!=t)cout<<-1<<endl;
+          else{
+            
+          }
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
+       }
 
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
 
+
+
+
+
+
+
+
+
+return;
 }
 int main()
 {

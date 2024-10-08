@@ -9,36 +9,38 @@ Oh wakin' senses that were lost in time
 (Make amends)
 This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
-
+ bool dp[1005][1005]={false};
  void solve(){
-       ll n,k;
-       cin>>n>>k;
-
-  vector<ll>a(n);
-
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+       int n;cin>>n;
+       int k;cin>>k;
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
-
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
-
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
-
-          if(up==a.end());
-     }
-  }
+        int a,b,c,d;
+        cin>>a>>b>>c>>d;
+    
+    dp[a][b]=true;
+    dp[b][a]=true;
+    dp[c][d]=true;
+    dp[d][c]=true;
      
-    return;
-           
+     vector<int>ans(n+2,0);
 
+    ans[0]=a;
+    ans[1]=c;
+    ans[n-1]=d;
+    ans[n-2]=b;
+
+
+    
+     
+
+        
+
+
+
+
+
+return;
 }
 int main()
 {

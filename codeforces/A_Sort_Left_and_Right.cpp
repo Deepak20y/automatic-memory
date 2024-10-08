@@ -11,34 +11,31 @@ This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+        int n;cin>>n;
 
-  vector<ll>a(n);
+    bool ok=true;
+    vector<int>a(n);
+    for(int i=0;i<n;i++)cin>>a[i];
+     bool ok2=false;
+    for(int i=0;i<n-1;i++)if(a[i+1]<a[i])ok=false;
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+    if(ok){cout<<0<<endl;return;}
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
+   set<int>b;
+   for(int i=0;i<n-1;i++)
+   {
+      b.insert(a[i]);
+      auto sp=b.end();
+      sp--;
+ //cout<<b.size()<<" "<<*sp<<" "<<a[i]<<endl;
+     if(*sp==b.size()&&*sp==a[i]){cout<<1<<endl;return;}
+   }
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
+ cout<<2<<endl;
 
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
-
+return;
 }
 int main()
 {

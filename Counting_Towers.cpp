@@ -10,35 +10,31 @@ Oh wakin' senses that were lost in time
 This liberation is the one they'll love for ages
 (Hey man, I see them comin')*/
 
+long long int dp[1000005][2];
+const int mod=1e9+7;
  void solve(){
-       ll n,k;
-       cin>>n>>k;
+       int n;cin>>n;
 
-  vector<ll>a(n);
+       dp[1][0]=1;// ways of placing tile of size of 1 on ith position
+       dp[1][1]=1;//ways of palcing tile of size 2 in ith position
 
-  for(int i=0;i<n;i++)cin>>a[i];
-  for(int i=0;i<n-1;i++)a[i+1]+=a[i];
-  vector<int>dp(n+5,0);
+       for(int i=2;i<=n;i++)
+       {
+         dp[i][1]=(2*dp[i-1][1]+dp[i-1][0])%mod;
+         dp[i][0]=(dp[i-1][1]+4*dp[i-1][0])%mod;
+
+       }
+
+       cout<<(dp[n][0]+dp[n][1])%mod<<endl;
 
 
-  for(int i=0;i<n;i++)
-  {  
-        if(a[i]>k){dp[i]++;continue;}
+       
 
-     for(int j=i;j<n;j++)
-     {    
-          ll sp=a[j];
-           if(j-1>=0)sp-=a[j-1];
 
-          auto up=upper_bound(a.begin()+j,a.end(),k+sp-1);
 
-          if(up==a.end());
-     }
-  }
-     
-    return;
-           
 
+
+return;
 }
 int main()
 {
