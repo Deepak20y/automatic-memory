@@ -13,12 +13,12 @@ This liberation is the one they'll love for ages
 
 struct segtree {
     int sz;
-    vector<int> tree;
+    vector<pair<int,int>> tree;
 
     void build(int n) {
         sz = 1;
         while (sz < n) sz *= 2;
-        tree.assign(2*sz, 0);
+        tree.assign(2*sz, {0,1e17});
     }
 
   
@@ -27,8 +27,8 @@ struct segtree {
         if (lx >= r||rx <= l) return;
       
         if (lx >= l && rx <= r) {
-            
-            tree[x]=v;
+            //tree[x]=max(v,tree[x]);
+            tree[x].first=ma0x(tree[x])
             return;
         }
 
@@ -40,15 +40,15 @@ struct segtree {
 
     int get(int idx, int x, int lx, int rx) {
         if (rx-lx==1) {
-            
+         //   cout<<tree[x]<<endl;
             return tree[x];
         }
-        
+
         int m = (lx + rx) / 2;
         if (idx < m)
-            return get(idx, 2*x+1, lx, m);
+            return max(get(idx, 2*x+1, lx, m), tree[x]);
         else
-            return get(idx, 2*x+2, m, rx);
+            return max(get(idx, 2*x+2, m, rx), tree[x]);
     }
 };
 
@@ -75,7 +75,7 @@ struct segtree {
       else{
          int idx;cin>>idx;
      cout<<tee.get(idx,0,0,tee.sz)<<endl;
-     
+     //cout<<endl;
       }
 
  }

@@ -25,6 +25,7 @@ long long rng() {
         for(int i=1;i<=n;i++)
         {
            hash[i]=rng();
+           //cout<<rng()<<endl;
         }
            vector<int>a(n),b(n);
 

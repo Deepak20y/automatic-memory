@@ -1,98 +1,158 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long int;
-using ull = unsigned long long;
 
-vector<int> adj[200005];
+const int MX = 1e5 + 5;
+struct DSU
+{
+	int p[MX];
+	int maxp[MX];
+	ll sum[MX];
+	int color[MX];
 
-const int MX = 2e5;
+	vector<int> elements[MX];
+	map<int, map<int, int>> ele;
 
-struct DSU {
-    int p[MX + 1];
-    ll sum[MX + 1];
+	void build(int n)
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			make_set(i);
+		}
+	}
 
-    
-    static bool cmp(const pair<int, int>& a, const pair<int, int>& b) {
-        if (a.second != b.second)
-            return a.second > b.second;
-        return a.first > b.first;
-    }
+	void make_set(int u)
+	{ // O(1)
+		p[u] = u;
+		elements[u].push_back(u);
+		maxp[u] = 1;
+	}
 
-    set<pair<int, int>, decltype(&cmp)> elements[MX + 1] = {set<pair<int, int>, decltype(&cmp)>(cmp)};
+	void assigncolor(int n)
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			sum[i] = color[i];
+			ele[i][color[i]] = 1;
+		}
+	}
 
-  
-    void make_set(int u) {
-        p[u] = u;
-        elements[u].insert({1, u});
-        sum[u] = u;
-    }
+	int find(int u)
+	{ // O(1)
+		return p[u];
+	}
 
-    int find(int u) {
-       
-        return p[u];
-    }
+	void join(int u, int v)
+	{ // O(log n) amortized
+		//cout << v << " "<<u<<" ";
+		u = find(u);
+		v = find(v);
+		if (u != v)
+		{
+			if (elements[u].size() > elements[v].size())
+			{
+				swap(u, v);
+			}
+			while (!elements[u].empty())
+			{
+				int x = elements[u].back();
+				elements[v].push_back(x);
+				elements[u].pop_back();
+				p[x] = v;
+				ele[v][color[x]]++;
 
+				if (ele[v][color[x]] == maxp[v])
+				{
+					
+						sum[v] += color[x];
+				}
+				else if (ele[v][color[x]] > maxp[v])
+				{
+					sum[v] = color[x];
+					maxp[v] = ele[v][color[x]];
+				}
+			}
 
-    void join(int u, int v) {
-        u = find(u);
-        v = find(v);
-        if (u != v) {
-            if (elements[u].size() > elements[v].size()) {
-                swap(u, v);
-            }
-       int maxp=max(elements[u].begin()->second,elements[v].begin()->second);
-            ll sum=0LL;
-            while (!elements[u].empty()) {
-                pair<int, int> x = *elements[u].begin();
-                
-                auto sp=elements[v].find(x);
-                if(sp!=elements[v].end())
-                {
-                    pair<int,int> y=*sp;
-                    sp=elements[v].end();
-                    elements[u].erase(elements[v2].begin());
-
-
-                }
-                else 
-                {
-                  
-                  elements[v].insert(x);
-
-                }
-                
-                p[u] = v;
-                elements[u].erase(elements[u].begin());
-            }
-        }
-    }
+			//cout <<v<<" "<<maxp[v] << " " << sum[v] << endl;
+		}
+	}
 } dsu;
 
-vector<int> a;
+vector<int> cnt;
+vector<int> adj[100005];
+vector<pair<int, int>> a;
+vector<bool> vis;
+vector<ll> ans;
 
-void solve() {
-    int n;
-    cin >> n;
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int n;
+	cin >> n;
+	dsu.build(n + 2);
 
-    for (int i = 1; i <= n; i++) {
-        dsu.make_set(i);
-    }
+	for (int i = 1; i <= n; i++)
+		cin >> dsu.color[i];
 
-    a.resize(n + 5);
-    for (int i = 1; i <= n; i++) {
-        cin >> a[i];
-    }
+	dsu.assigncolor(n);
 
-    // Additional code for your problem would go here
+	for (int i = 1; i < n; i++)
+	{
+		int p, q;
+		cin >> p >> q;
+		adj[p].push_back(q);
+		adj[q].push_back(p);
+	}
+	queue<int> q;
 
-    return;
-}
+	q.push(1);
 
-int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    std::cout.tie(nullptr);
+	vis.assign(n + 3, false);
+	ans.resize(n + 3);
+	cnt.assign(n + 3, 0);
 
-    solve();
-    return 0;
+	while (!q.empty())
+	{
+		int sp = q.front();
+		q.pop();
+		vis[sp] = true;
+
+		for (auto &x : adj[sp])
+		{
+			if (vis[x])
+				continue;
+			q.push(x);
+			a.push_back({x, sp}); // this will give order of traversal
+		}
+	}
+
+	// for(auto &[x,y]:a)cout<<x<<" "<<y<<endl;
+	// return 0;
+
+	while (!a.empty())
+	{
+		cnt[a.back().first]++;
+		cnt[a.back().second]++;
+		if (adj[a.back().first].size() == 1)
+			ans[a.back().first] = dsu.color[a.back().first];
+
+		// cout<<a.back().second<<" "<<" "<<cnt[a.back().second]<<" "<<adj[a.back().second].size()<<" ";
+		dsu.join(a.back().first, a.back().second);
+
+		if (cnt[a.back().second] == adj[a.back().second].size() - 1)
+		{
+			ans[a.back().second] = dsu.sum[dsu.find(a.back().second)];
+		}
+
+		a.pop_back();
+	}
+
+	ans[1] = dsu.sum[dsu.find(1)];
+
+	for (int i = 1; i <= n; i++)
+		cout << ans[i] << " ";
+
+	return 0;
 }

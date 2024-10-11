@@ -1,74 +1,45 @@
-// #include <bits/stdc++.h>
-// using namespace std;
-// using ll = long long int;
-// using ull = unsigned long long;
-// /*I liked you once but not anymore now
-// She's wearin' dresses on the border line
-// (Lookin' good)
-// Oh wakin' senses that were lost in time
-// (Make amends)
-// This liberation is the one they'll love for ages
-// (Hey man, I see them comin')*/
-// int n;
-// int K;
-// vector<int> a;
-// ll dp[101][100005];
-// const int mod = 1e9 + 7;
-// int recur(int i, int k)
-// {
-//     if (k > K)
-//         return 0;
-//     if (i >= n)
-//     {
-//         if (k == K)
-//             return 1;
-//         else
-//             return 0;
-//     }
-//     if (dp[i][k] != -1)
-//         return dp[i][k];
+#include <bits/stdc++.h>
 
-//     ll ans = 0;
+using namespace std;
 
-//     for (int j = 0; j <= a[i] && k + j <= K; j++)
-//     {
-//         ans += recur(i + 1, k + j);
-//         ans %= mod;
-//     }
+const int MOD = 1e9 + 7;
 
-//     return dp[i][k] = ans;
-// }
-// void solve()
-// {
-
-//     cin >> n;
-//     cin >> K;
-//     memset(dp, -1, sizeof(dp));
-//     a.resize(n);
-//     for (int i = 0; i < n; i++)
-//         cin >> a[i];
-
-
-//    for(int i=0;i<n;i++)
-//    {
-
-//      for(int j=0;j<=k;j++)
-//      {
-
-         
-
-//      }
-
-//    }
-
-//     return;
-// }
-// int main()
-// {
-//     std::ios::sync_with_stdio(false);
-//     std::cin.tie(nullptr);
-//     std::cout.tie(nullptr);
-
-//     solve();
-//     return 0;
-// }
+int main() {
+    int n, k;
+    cin >> n >> k;
+    
+    vector<int> a(n + 1);  // 1-based index
+    for (int i = 1; i <= n; i++) {
+        cin >> a[i];
+    }
+    
+    vector<vector<int>> dp(n + 1, vector<int>(k + 1, 0));
+    dp[0][0] = 1;
+    
+    for (int i = 1; i <= k; i++) {
+        dp[0][i] = 0;
+    }
+    
+    for (int i = 1; i <= n; i++) {
+        vector<int> sums(k + 1, 0);
+        sums[0] = dp[i - 1][0];
+        for (int j = 1; j <= k; j++) {
+            sums[j] = (sums[j - 1] + dp[i - 1][j]) % MOD;
+        }
+        
+        for (int j = 0; j <= k; j++) {
+            int tr = sums[j]; 
+            int unreachable = j - a[i] - 1;  
+            
+            if (unreachable >= 0) {
+                tr = (tr - sums[unreachable] + MOD) % MOD; 
+            }
+            
+            dp[i][j] = tr;
+        }
+    }
+    
+    cout << dp[n][k] << endl;
+    
+    return 0;
+}

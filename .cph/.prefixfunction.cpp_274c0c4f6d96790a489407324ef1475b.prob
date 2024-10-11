@@ -1,0 +1,1 @@
+{"name":"Local: prefixfunction","url":"/home/slumio/automatic-memory/prefixfunction.cpp","tests":[{"id":1726647820416,"input":"xixprexixsufxix\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/slumio/automatic-memory/prefixfunction.cpp","group":"local","local":true}
