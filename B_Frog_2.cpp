@@ -1,49 +1,32 @@
-#include<bits/stdc++.h>
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+#include <functional> 
+#include <iostream>
+using namespace __gnu_pbds;
 using namespace std;
-using ll =long long int;
-using ull=unsigned long long;
-/*I liked you once but not anymore now
-She's wearin' dresses on the border line
-(Lookin' good)
-Oh wakin' senses that were lost in time
-(Make amends)
-This liberation is the one they'll love for ages
-(Hey man, I see them comin')*/
-
- int dp[100004];
-
- void solve(){
-         
-         int n,k;
-     cin>>n>>k;
-      vector<int>a(n);
-      for(int i=0;i<n;i++)cin>>a[i];
-
-        for(int i=0;i<n;i++)
-        dp[i]=1e9+5;
-
-        dp[0]=0;
-    // for(auto &x:a)cout<<x<<" ";cout<<endl;
-    // cout<<n<<"="<<k<<endl;
-     for(int i=0;i<n;i++)
-     {
-        for(int j=i+1;j<min(i+k+1,n);j++)
-        { //cout<<i<<" "<<j<<endl;
-            dp[j]=min(dp[j],dp[i]+abs(a[i]-a[j]));
-        }
-     }
-
-     cout<<dp[n-1]<<endl;
 
 
+typedef tree<int, null_type, less<int>, rb_tree_tag,
+            tree_order_statistics_node_update>
+    ordered_set;
 
 
-return;
-}
 int main()
 {
-std::ios::sync_with_stdio(false);std::cin.tie(nullptr);std::cout.tie(nullptr);
 
-solve();
-return 0;
+  ordered_set p;
+  p.insert(3);
+
+    cout << "The value at 3rd index ::"
+        << *p.find_by_order(3) << endl;
+
+    cout << "The index of number 6::" << p.order_of_key(6)
+        << endl;
+
+    
+    cout << "The index of number seven ::"
+        << p.order_of_key(7) << endl;
+
+    return 0;
 }

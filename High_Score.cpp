@@ -1,79 +1,94 @@
-#include <stdio.h>
-#include <limits.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <tuple>
+#include <limits>
 
-#define INF INT_MAX // Infinity value
+using namespace std;
 
-// Edge structure
+const long long NEG_INF = -1e18;
+
 struct Edge {
-    int u, v, weight;
+    int u, v;
+    long long weight;
 };
 
-// Function to perform modified Bellman-Ford Algorithm to find maximum path
-void bellmanFordMaxPath(int vertices, int edges, struct Edge edgeList[], int source) {
-    // Distance array to store the longest distance from source to each vertex
-    int dist[vertices];
+int n, m;
+vector<Edge> edges;
+vector<vector<int>> adj, rev_adj;
 
-    // Step 1: Initialize distances from source to all vertices as negative infinity, except source
-    for (int i = 0; i < vertices; i++) {
-        dist[i] = -INF;
-    }
-    dist[source] = 0;
+vector<long long> bellmanFord(int start) {
+    vector<long long> dist(n + 1, NEG_INF);
+    dist[start] = 0;
 
-    // Step 2: Relax all edges V-1 times (using negated weights)
-    for (int i = 1; i <= vertices - 1; i++) {
-        for (int j = 0; j < edges; j++) {
-            int u = edgeList[j].u;
-            int v = edgeList[j].v;
-            int weight = edgeList[j].weight;
-
-            // Maximizing the path (finding the "longest" path)
-            if (dist[u] != -INF && dist[u] + weight > dist[v]) {
-                dist[v] = dist[u] + weight;
+    // Bellman-Ford relaxation for (n - 1) times
+    for (int i = 1; i <= n - 1; ++i) {
+        for (const auto& edge : edges) {
+            if (dist[edge.u] != NEG_INF && dist[edge.u] + edge.weight > dist[edge.v]) {
+                dist[edge.v] = dist[edge.u] + edge.weight;
             }
         }
     }
 
-    // Step 3: Check for positive-weight cycles (which would make the maximum path unbounded)
-    for (int i = 0; i < edges; i++) {
-        int u = edgeList[i].u;
-        int v = edgeList[i].v;
-        int weight = edgeList[i].weight;
-
-        if (dist[u] != -INF && dist[u] + weight > dist[v]) {
-            printf("Graph contains a positive weight cycle, maximum path is unbounded\n");
-            return;
+    // Check for cycles by relaxing one more time
+    vector<bool> inCycle(n + 1, false);
+    for (int i = 1; i <= n; ++i) {
+        for (const auto& edge : edges) {
+            if (dist[edge.u] != NEG_INF && dist[edge.u] + edge.weight > dist[edge.v]) {
+                inCycle[edge.v] = true;
+            }
         }
     }
 
-    // Print the longest distances
-    printf("Vertex\tLongest Distance from Source\n");
-    for (int i = 0; i < vertices; i++) {
-        if (dist[i] == -INF)
-            printf("%d\t\t-INF\n", i);
-        else
-            printf("%d\t\t%d\n", i, dist[i]);
+    // Mark all nodes that are reachable from any cycle node
+    queue<int> q;
+    vector<bool> reachableFromCycle(n + 1, false);
+    for (int i = 1; i <= n; ++i) {
+        if (inCycle[i]) {
+            q.push(i);
+            reachableFromCycle[i] = true;
+        }
     }
+
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        for (int v : adj[u]) {
+            if (!reachableFromCycle[v]) {
+                reachableFromCycle[v] = true;
+                q.push(v);
+            }
+        }
+    }
+
+    // Check if any cycle node can reach room n
+    if (reachableFromCycle[n]) {
+        cout << -1 << endl;
+        return {};
+    }
+
+    return dist;
 }
 
 int main() {
-    int vertices = 5; // Number of vertices in graph
-    int edges = 9; // Number of edges in graph
+    cin >> n >> m;
+    edges.resize(m);
+    adj.resize(n + 1);
+    rev_adj.resize(n + 1);
 
-    // List of all edges in the graph (u, v, weight)
-    struct Edge edgeList[] = {
-        {0, 1, 6},
-        {0, 2, 7},
-        {1, 2, 8},
-        {1, 3, 5},
-        {1, 4, -4},
-        {2, 3, -3},
-        {2, 4, 9},
-        {3, 1, -2},
-        {4, 3, 7}
-    };
+    for (int i = 0; i < m; ++i) {
+        int a, b;
+        long long x;
+        cin >> a >> b >> x;
+        edges[i] = {a, b, x};
+        adj[a].push_back(b);
+        rev_adj[b].push_back(a);
+    }
 
-    int source = 0; // Starting node
-    bellmanFordMaxPath(vertices, edges, edgeList, source);
+    vector<long long> dist = bellmanFord(1);
+    if (!dist.empty()) {
+        cout << dist[n] << endl;
+    }
 
     return 0;
 }
