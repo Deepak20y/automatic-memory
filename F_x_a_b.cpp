@@ -1,115 +1,56 @@
 #include<bits/stdc++.h>
+
 using namespace std;
-using ll =long long int;
-using ull=unsigned long long;
-/*I liked you once but not anymore now
-She's wearin' dresses on the border line
-(Lookin' good)
-Oh wakin' senses that were lost in time
-(Make amends)
-This liberation is the one they'll love for ages
-(Hey man, I see them comin')*/
 
-bool find(ll  mid,ll n,int p)
-{
- ll sp=1LL;
- if(mid==0)return false;
-  for(int i=0;i<p;i++)
-  {
-    if(sp<=n/mid)sp*=mid;
-    else return false;
-     
+vector<long long> pfact(long long x){
+  vector<long long> res;
+  for(long long i=2;i*i<=x;i++){
+    while(x%i==0){
+      res.push_back(i);
+      x/=i;
+    }
   }
-
-  return true;
-
+  if(x>1){res.push_back(x);}
+  return res;
 }
 
-bool pc(ll mid,ll n,int p)
-{
-
-   ll sp=1LL;
-   for(int i=1;i<=p;i++)sp*=mid;
-
-     return sp<=n;
+long long safe_pow(long long a,long long b){
+  long long res=1;
+  for(long long i=0;i<b;i++){
+    double dres=res;
+    dres*=a;
+    if(dres>2e18){return 2e18;}
+    res*=a;
+  }
+  return res;
 }
 
- void solve(){
-       ll n;cin>>n;
- 
- ll ans=0LL;
- vector<int>a{2,3,5,7,11,13,17};
- 
- for(int i=0;i<a.size();i++)
- {
-
-    ll low=0;
-    ll high=(ll)1e9+(ll)1e5;
-    ll mid;
-
-    for(int j=0;j<60;j++)
-    {
-        if(high>=low)
-        {
-            mid=(high+low)/2LL;
-            if(find(mid,n,a[i]))low=mid;
-            else high=mid;
-
-        }
+int main(){
+  long long n;
+  cin >> n;
+  long long res=0;
+  for(long long b=2;b<60;b++){
+    long long l=2,r=2e9;
+    while(l<=r){
+      long long t=(l+r)/2;
+      if(safe_pow(t,b)>n){r=t-1;}
+      else{l=t+1;}
     }
-  
- //if(!pc(low,n,a[i]))low--;
-    ans+=low-1LL;
+    // a = [2,r] satisfy a^b <= n
+    cout<<r<<endl;
+    vector<long long> pf=pfact(b);
 
- }
 
- //cout<<ans<<endl;
-
- 
-
- vector<int>b{6,10,14,15};
-
- for(int i=0;i<b.size();i++)
- {
-
-    ll low=0;
-    ll high=(ll)1e9+(ll)1e5;
-    ll mid;
-
-    for(int j=0;j<60;j++)
-    {
-        if(high>=low)
-        {
-            mid=(high+low)/2LL;
-            if(find(mid,n,b[i]))low=mid;
-            else high=mid;
-
-        }
+    
+    bool same=false;
+    for(long long i=1;i<pf.size();i++){
+      if(pf[i-1]==pf[i]){same=true; break;}
     }
-// if(!pc(low,n,b[i]))low--;
-    ans-=low-1LL;
-
- }
-
- ans++;
-
-
-
-
-
-cout<<(ll)ans;
-cout<<endl;
-
-cout<<(ll)pow(3,19)<<endl;
-
-
-
-return;
-}
-int main()
-{
-std::ios::sync_with_stdio(false);std::cin.tie(nullptr);std::cout.tie(nullptr);
-
-solve();
-return 0;
+    if(same){continue;}
+    if(pf.size()%2){res+=(r-1);}
+    else{res-=(r-1);}
+  }
+  res++; // count 1
+  cout << res << "\n";
+  return 0;
 }

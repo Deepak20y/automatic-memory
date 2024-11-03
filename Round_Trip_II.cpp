@@ -35,7 +35,7 @@ void find_cycle()
     int n, m;
     cin >> n >> m;
     adj.resize(n);
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < m; i++)
     {
         int p, q;
         cin >> p >> q;

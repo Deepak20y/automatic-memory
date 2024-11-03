@@ -68,7 +68,7 @@ do
    
    cout<<ans/4<<endl;
 
-
+l
 
 return;
 }
